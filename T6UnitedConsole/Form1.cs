@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Net;
 
 namespace T6UnitedConsole
 {
@@ -167,6 +168,7 @@ namespace T6UnitedConsole
             OpenProcess(ProcessAccessFlags.All, false, dwPID);
             int nopBytesLength = nopBytes.Length;
             WriteProcessMemory(hProcess, (IntPtr)nop_address, nopBytes, nopBytes.Length, out nopBytesLength);
+            CheckMOTD();
         }
 
         void Send(string command)
@@ -220,7 +222,7 @@ namespace T6UnitedConsole
         private void button3_Click(object sender, EventArgs e)
         {
             OpenFileDialog loadCFG = new OpenFileDialog();
-            loadCFG.Filter = "T6 Movie Config(*.cfg)|";
+            loadCFG.Filter = "T6 Movie Config(*.cfg)|*.cfg|All files(*.*)|*.*";
             DialogResult result = loadCFG.ShowDialog();
             if(result == DialogResult.OK)
             {
@@ -232,7 +234,7 @@ namespace T6UnitedConsole
         private void button4_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveCFG = new SaveFileDialog();
-            saveCFG.Filter = "T6 Movie Config(*.cfg)|All files(*.*)|";
+            saveCFG.Filter = "T6 Movie Config(*.cfg)|*.cfg|All files(*.*)|*.*";
             saveCFG.RestoreDirectory = true;
             DialogResult result = saveCFG.ShowDialog();
             if (result == DialogResult.OK)
@@ -247,6 +249,23 @@ namespace T6UnitedConsole
         {
             AboutForm about = new AboutForm();
             about.Show();
+        }
+
+        void CheckMOTD()
+        {
+            WebRequest request = WebRequest.Create("http://pastebin.com/raw/vC2ZV16r");
+            WebResponse response = request.GetResponse();
+            Stream responseStream = response.GetResponseStream();
+            StreamReader MOTDreader = new StreamReader(responseStream);
+            string currentMOTD = MOTDreader.ReadToEnd();
+            if (Properties.Settings.Default.lastMOTD != currentMOTD)
+            {
+                MessageBox.Show(currentMOTD, "Message of the Day", MessageBoxButtons.OK);
+                Properties.Settings.Default.lastMOTD = currentMOTD;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Upgrade();
+            }
+            Debug.WriteLine(currentMOTD);
         }
     }
 }
