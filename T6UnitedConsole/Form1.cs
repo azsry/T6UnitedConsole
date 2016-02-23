@@ -127,47 +127,7 @@ namespace T6UnitedConsole
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (Process.GetProcessesByName("t6mp").Length != 0)
-            {
-                cbuf_address = 0x5BDF70;
-                nop_address = 0x8C90DA;
-                hProcess = Process.GetProcessesByName("t6mp")[0].Handle;
-                dwPID = Process.GetProcessesByName("t6mp")[0].Id;
-                label3.Text = "Steam MP found.";
-            }
-            else if(Process.GetProcessesByName("t6zm").Length != 0)
-            {
-                cbuf_address = 0x4C7120;
-                nop_address = 0x8C768A;
-                hProcess = Process.GetProcessesByName("t6zm")[0].Handle;
-                dwPID = Process.GetProcessesByName("t6zm")[0].Id;
-                label3.Text = "Steam ZM found.";
-            }
-            else if(Process.GetProcessesByName("t6mpv43").Length != 0)
-            {
-                cbuf_address = 0x5C6F10;
-                nop_address = 0x8C923A;
-                hProcess = Process.GetProcessesByName("t6mpv43")[0].Handle;
-                dwPID = Process.GetProcessesByName("t6mpv43")[0].Id;
-                label3.Text = "Redacted MP found.";
-            }
-            else if(Process.GetProcessesByName("t6zmv41").Length != 0)
-            {
-                cbuf_address = 0x6B9D20;
-                nop_address = 0x8C7E7A;
-                hProcess = Process.GetProcessesByName("t6zmv41")[0].Handle;
-                dwPID = Process.GetProcessesByName("t6zmv41")[0].Id;
-                label3.Text = "Redacted ZM found.";
-            }
-            else 
-            {
-                cbuf_address = 0x0;
-                nop_address = 0x0;
-                label3.Text = "No game found.";
-            }
-            OpenProcess(ProcessAccessFlags.All, false, dwPID);
-            int nopBytesLength = nopBytes.Length;
-            WriteProcessMemory(hProcess, (IntPtr)nop_address, nopBytes, nopBytes.Length, out nopBytesLength);
+            FindGame();
             CheckMOTD();
         }
 
@@ -266,6 +226,56 @@ namespace T6UnitedConsole
                 Properties.Settings.Default.Upgrade();
             }
             Debug.WriteLine(currentMOTD);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            FindGame();
+        }
+        
+        void FindGame()
+        {
+            if (Process.GetProcessesByName("t6mp").Length != 0)
+            {
+                cbuf_address = 0x5BDF70;
+                nop_address = 0x8C90DA;
+                hProcess = Process.GetProcessesByName("t6mp")[0].Handle;
+                dwPID = Process.GetProcessesByName("t6mp")[0].Id;
+                label3.Text = "Steam MP found.";
+            }
+            else if (Process.GetProcessesByName("t6zm").Length != 0)
+            {
+                cbuf_address = 0x4C7120;
+                nop_address = 0x8C768A;
+                hProcess = Process.GetProcessesByName("t6zm")[0].Handle;
+                dwPID = Process.GetProcessesByName("t6zm")[0].Id;
+                label3.Text = "Steam ZM found.";
+            }
+            else if (Process.GetProcessesByName("t6mpv43").Length != 0)
+            {
+                cbuf_address = 0x5C6F10;
+                nop_address = 0x8C923A;
+                hProcess = Process.GetProcessesByName("t6mpv43")[0].Handle;
+                dwPID = Process.GetProcessesByName("t6mpv43")[0].Id;
+                label3.Text = "Redacted MP found.";
+            }
+            else if (Process.GetProcessesByName("t6zmv41").Length != 0)
+            {
+                cbuf_address = 0x6B9D20;
+                nop_address = 0x8C7E7A;
+                hProcess = Process.GetProcessesByName("t6zmv41")[0].Handle;
+                dwPID = Process.GetProcessesByName("t6zmv41")[0].Id;
+                label3.Text = "Redacted ZM found.";
+            }
+            else
+            {
+                cbuf_address = 0x0;
+                nop_address = 0x0;
+                label3.Text = "No game found.";
+            }
+            hProcess = OpenProcess(ProcessAccessFlags.All, false, dwPID);
+            int nopBytesLength = nopBytes.Length;
+            WriteProcessMemory(hProcess, (IntPtr)nop_address, nopBytes, nopBytes.Length, out nopBytesLength);
         }
     }
 }
