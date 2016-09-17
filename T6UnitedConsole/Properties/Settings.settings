@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="lastMOTD" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Test</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

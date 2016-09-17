@@ -98,6 +98,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bo2logokotori.ico" />
+    <None Include="Resources\0.png" />
+    <None Include="Resources\6.png" />
+    <None Include="Resources\5.png" />
+    <None Include="Resources\4.png" />
+    <None Include="Resources\3.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\1.png" />
+    <None Include="Resources\Untitled-1.png" />
+    <None Include="Resources\download1.png" />
+    <None Include="Resources\download.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
