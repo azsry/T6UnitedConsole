@@ -1,5 +1,5 @@
 # T6UnitedConsole
-A ubiquitous external console for T6. Includes DVAR sliders and auto-updater
+A ubiquitous external console for T6 (and others). Includes DVAR sliders and auto-updater
 
 ![Main Screen](http://i.imgur.com/v9BGZUd.png "T6 United Console Interface")
 
